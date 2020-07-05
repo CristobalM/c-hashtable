@@ -14,12 +14,17 @@ int main(){
     int value3 = 1;
     int value4 = 2;
     int value5 = 3;
+    int value6 = 4;
+    int value7 = 7;
 
     set_value_chained_htable(&cht, "FOO BAR 1", &value1, FALSE, NULL_PTR);
     set_value_chained_htable(&cht, "BAZ BAR FOO", &value2, FALSE, NULL_PTR);
     set_value_chained_htable(&cht, "BAZ BAR FOO2", &value3, FALSE, NULL_PTR);
     set_value_chained_htable(&cht, "BAZ BAR FOO3", &value4, FALSE, NULL_PTR);
     set_value_chained_htable(&cht, "BAZ BAR FOO4", &value5, FALSE, NULL_PTR);
+    set_value_chained_htable(&cht, "BAZ BAR FOO5", &value6, FALSE, NULL_PTR);
+    int *old_value;
+    set_value_chained_htable(&cht, "BAZ BAR FOO5", &value7, TRUE, (void **)&old_value);
 
     struct ll_node *result1 = get_node_chained_htable(&cht, "FOO BAR 1");
     struct ll_node *result2 = get_node_chained_htable(&cht, "BAZ BAR FOO");
@@ -53,6 +58,20 @@ int main(){
 
     int *result4 = pop_value_chained_table(&cht, "BAZ BAR FOO3");
     printf("result4  value: %d\n", *result4);
+
+    if(old_value == &value6){
+        printf("old value equals value6!\n");
+    }
+    else{
+        printf("old value not equal to value6!\n");
+    }
+    struct ll_node *result7 = get_node_chained_htable(&cht, "BAZ BAR FOO5");
+    if((int *)result7->value == &value7){
+        printf("result7 holds value7!!\n");
+    }
+    else{
+        printf("result7 does not hold value7!!\n");
+    }
 
     free_chained_htable(&cht);
     return 0;
